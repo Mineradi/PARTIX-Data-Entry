@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Data Sorter</title>
+  
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            
+            background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; 
+            color: #E0E0E0; 
+        }
+
+        
+        @keyframes bg-pulse {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        
+        .form-card {
+            background-color: rgba(25, 25, 25, 0.9); 
+            backdrop-filter: blur(15px); 
+            border-radius: 2rem;
+           
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 40px rgba(102, 126, 234, 0.3);
+            padding: 3.5rem 3rem; 
+            width: 100%;
+            max-width: 520px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            animation: fadeInScale 0.8s ease-out forwards; 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+       
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            background: radial-gradient(circle at center, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: rotateGlow 15s linear infinite;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Entry animation for the container */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+       
+        .form-card h2 {
+            font-size: 2.5rem;
+            font-weight: 800; 
+            color: #F0F0F0; 
+            margin-bottom: 2.5rem; 
+            position: relative;
+            text-shadow: 0 0 15px rgba(102, 126, 234, 0.5); 
+        }
+
+      
+        .form-card h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 5px; 
+            background: linear-gradient(90deg, #667EEA, #764BA2);
+            margin: 1rem auto 0; 
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.7); 
+        }
+
+       
+        .form-group {
+            margin-bottom: 1.8rem;
+            text-align: left;
+        }
+
+    
+        .form-group label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #C0C0C0; 
+            margin-bottom: 0.6rem;
+        }
+
+      
+        .form-group input {
+            width: 100%;
+            padding: 1.1rem 1.4rem;
+            border: 1px solid #444444; 
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            color: #F0F0F0; 
+            background-color: #2A2A2A; 
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); 
+            transition: all 0.3s ease-in-out;
+        }
+
+     
+        .form-group input:focus {
+            outline: none;
+            border-color: #667EEA;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.3); 
+            background-color: #3A3A3A; 
+        }
+
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1.35rem 2.5rem; /* Larger button */
+            background: linear-gradient(45deg, #667EEA, #764BA2);
+            color: #fff;
+            font-size: 1.35rem; /* Larger text */
+            font-weight: 700;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            margin-top: 3rem; /* More space */
+            box-shadow: 0 15px 30px rgba(118, 75, 162, 0.5); 
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+       
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(118, 75, 162, 0.8), 0 0 50px rgba(102, 126, 234, 0.7); 
+            background: linear-gradient(45deg, #764BA2, #667EEA); 
+        }
+
+       
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.3);
+            background: linear-gradient(45deg, #5A6EEA, #6B3BA2); 
+        }
+
+       
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 30%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: skewX(-20deg);
+            transition: all 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+       
+        @media (max-width: 640px) {
+            .form-card {
+                padding: 2.5rem 1.8rem;
+                border-radius: 1.75rem;
+                max-width: 90%;
+            }
+            .form-card h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            .form-card h2::after {
+                width: 60px;
+                height: 4px;
+            }
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+            .form-group label {
+                font-size: 1rem;
+            }
+            .form-group input {
+                padding: 1rem 1.25rem;
+            }
+            .submit-btn {
+                padding: 1.1rem 2rem;
+                font-size: 1.2rem;
+                margin-top: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+
+    <!-- This div creates a subtle animated background pattern -->
+    <div class="absolute inset-0 z-0 opacity-10" style="background-image: radial-gradient(#333 1px, transparent 1px), radial-gradient(#333 1px, transparent 1px); background-size: 40px 40px; background-position: 0 0, 20px 20px; animation: moveBg 60s linear infinite;"></div>
+ 
+    <div class="form-card">
+        <h2>Employee Data Entry</h2>
+        <form id="dataForm" class="space-y-4">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter employee name" required class="focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" name="mobile" placeholder="Enter mobile number" pattern="[0-9]{10}" required class="focus:ring-2 focus:ring-blue-400">
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+  PARTIX
+    </div>
+
+    <script>
+        const form = document.getElementById('dataForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const data = new FormData(form);
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzXl7G_xHD22dB4zN9z7XTAaQR3Wz4uUxc3W4-HuGfNgxxgaGojCw0BgRvP_GmOPPij/exec';
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: data
+            })
+            .then(response => {
+                alert('Data submitted successfully!');
+                form.reset();
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('Submission failed. Please try again. Error: ' + error.message);
+            });
+        });
+    </script>
+
+</body>
+</html>
